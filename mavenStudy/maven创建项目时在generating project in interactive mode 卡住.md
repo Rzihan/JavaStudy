@@ -1,0 +1,7 @@
+最近学习maven，在使用maven创建一个web项目时，使用mvn archetype:generate命令时卡在了generating project in interactive mode。
+
+可能原因是请求从远程服务器上取catalog，因为网络的问题导致的。
+
+解决方法是在命令后加参数-DarchetypeCatalog=internal
+
+选择y后即可成功创建项目
