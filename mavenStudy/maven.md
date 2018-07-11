@@ -108,9 +108,178 @@ mvn archetype:generate -DgroupId=组织名，公司网址的反写+项目名字
 
 ```
 clean 清理项目
-default 构建项目
+	pre-clean 执行清理前的工作
+	clean 清理上一次构建生成的所有文件
+	post-clean 执行清理后的文件
+default 构建项目（最核心）
+	compile test pack install
 site 生成项目站点
+	pre-site 在生成项目站点前要完成的工作
+	site 生成项目的站点文档
+	post-site 在生成项目站点后要完成的工作
+	site-deploy 发布生成的站点到服务器上
+
 ```
 
+```xml
+<build>
+    <plugins>
+        <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-source-plugin</artifactId>
+              <version>2.4</version>
+              <executions>
+                <execution>
+                  <phase>package</phase>
+                  <goals>
+                    <goal>jar-no-fork</goal>
+                  </goals>
+                </execution>
+              </executions>
+           </plugin>
+       </plugins>
+</build>
+```
+
+## 7、maven中Pom.xml解析
 
 
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  		<!--指定了当前的pom版本-->
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>反写的公司网址+项目名</groupId>
+  <artifactId>项目名+模块名</artifactId>
+  <!-- 第一个0 表示大版本号
+	第二个0 表示分支版本号
+	第三个0 表示小版本号
+	0.0.1
+	snapshot快照
+	alpha 内部测试
+	beta 公测
+	Release 稳定
+	GA 正式发布
+-->
+    <version></version>
+  	<!--默认是jar
+	-->
+    <packaging></packaging>
+    <!--项目描述名-->
+    <name></name>
+    <!--项目地址-->
+    <url></url>
+    <!--项目描述-->
+    <description></description>
+	<developers></developers>
+	<licenses></licenses>
+	<organization></organization>
+
+    <dependencies>
+    	<dependenncy>
+        	<groupId></groupId>
+            <artifactId></artifactId>
+            <version></version>
+            <type></type>
+            <scope></scope>
+            <!--设置依赖是否可选-->
+            <optional></optional>
+            <!--排除依赖传递列表-->
+            <exclusions>
+            	<exclusion></exclusion>
+            </exclusions>
+        </dependenncy>
+    </dependencies>
+   		
+    	<!--依赖的管理-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency></dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <!--插件列表-->
+        <plugins>
+            <plugin>
+                <groupId></groupId>
+                <artifactId></artifactId>
+                <version></version>
+            </plugin>
+        </plugins>
+    </build>  
+    
+</project>
+```
+
+## 8、maven的依赖范围
+
+* compile：默认的范围，编译测试运行都有效
+* provided：在编译和测试时有效
+* runtime：在测试和运行时有效
+* test：只在测试时有效
+* system：与本机系统相关联，可移植性差
+* import：导入的范围，它只使用在dependencyManagement中，表示从其它的pom中导入dependency的配置
+
+## 9、maven的依赖传递
+
+## 10、maven的依赖冲突
+
+1. 短路优先
+
+2. 先声明先优先
+
+   如果路径长度相同，则谁先声明，先解析谁
+
+## 11、maven的聚合和继承
+
+* 聚合
+
+```xml
+<modules>
+        <module>../hongxingbige</module>
+        <module>../hongxing-nage</module>
+        <module>../hongxing-shanji</module>
+</modules>
+```
+
+* 继承
+
+```xml
+<properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <junit.version>4.10</junit.version>
+</properties>
+
+<dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+```xml
+<parent>
+    <groupId>hongxing</groupId>
+    <artifactId>hongxing-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</parent>
+```
+
+## 12、使用maven构建web项目
+
+1. 打开IDEA，创建新的项目
+2. 选择Maven，以及自己电脑的的jdk
+3. 接下来自定义GroupId以及ArtifactId
+4. 然后自定义项目名字，Finish
+5. maven中，第一次创建会在src下生成main/java以及main/resources目录，src中的test目录是要自己创建的，test目录的中代码不会被发布，用于测试。
+6. 接下来 maven中创建web项目
