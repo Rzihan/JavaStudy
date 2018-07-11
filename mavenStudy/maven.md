@@ -283,3 +283,28 @@ site 生成项目站点
 4. 然后自定义项目名字，Finish
 5. maven中，第一次创建会在src下生成main/java以及main/resources目录，src中的test目录是要自己创建的，test目录的中代码不会被发布，用于测试。
 6. 接下来 maven中创建web项目
+
+![Add Framework Support](https://github.com/Rzihan/JavaStudy/blob/master/image/maven/addFrameworkSupport.png?raw=true)
+
+7. 右键Add  Framework Support，出现项目创建选项：
+
+![web project](https://github.com/Rzihan/JavaStudy/blob/master/image/maven/webProject.png?raw=true)
+
+8. 选择web项目，点击确定，之后先配置好pom.xml下的web项目依赖包
+
+![pomDependence](https://github.com/Rzihan/JavaStudy/blob/master/image/maven/pomDependencies.png?raw=true)
+
+9. idea出现提示Maven projects need to be imported，点击Import Changes Enable Auto-Import，让maven自动下载导抱。
+
+   查看项目下的External Libraries，可以发现依赖包已经下载好了：
+
+![external Libraries](https://github.com/Rzihan/JavaStudy/blob/master/image/maven/externalLibraries.png?raw=true)
+
+10. 接下来在src/main/java目录下新建一个servlet；
+11. 最后配置tomcat服务器
+
+![](https://github.com/Rzihan/JavaStudy/blob/master/image/maven/tomcat.png?raw=true)
+
+![](https://github.com/Rzihan/JavaStudy/blob/master/image/maven/tomcat2.png?raw=true)
+
+12. 最后发布运行，然后再浏览器上输入servlet请求。
